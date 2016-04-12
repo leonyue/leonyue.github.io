@@ -9856,6 +9856,89 @@ $.fn.unslider = function(o) {} 改成这样&lt;/p&gt;
       </item>
     
       <item>
+        <title>使用Pods和自定义静态库实现多工程联编</title>
+        <link>https://leonyue.github.io/2015/08/23/life-keyboardAndHHKB.html</link>
+        <guid isPermaLink="true">https://leonyue.github.io/2015/08/23/life-keyboardAndHHKB.html</guid>
+        <pubDate>Sun, 23 Aug 2015 00:00:00 +0800</pubDate>
+        <description>&lt;p&gt;近来随着公司项目开发的深入，项目的规范也就越来越高了，为了更加方便的管理自定义静态库与pods之间的联系，好好的研究了一番。&lt;/p&gt;
+
+&lt;h2 id=&quot;mark&quot;&gt;1.首先就是创建一个静态库，命名为Mark（这个随便你自己怎么定义）。&lt;/h2&gt;
+&lt;hr /&gt;
+&lt;p&gt;&lt;img src=&quot;http://127.0.0.1:4000/upload/80230176-7A80-46A5-B4CF-9EFE6D6B9A98.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;section&quot;&gt;2.创建一个实例工程，（也就是你需要开发的工程 或者是你已经创建好了的）。&lt;/h2&gt;
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;pod-file&quot;&gt;3.书写pod file文件。（非常关键，因为格式有时候会造成很多的坑）&lt;/h2&gt;
+&lt;hr /&gt;
+
+&lt;p&gt;workspace ‘MarkSpace’//需要生成workspace的名称&lt;/p&gt;
+
+&lt;p&gt;xcodeproj ‘Mark/Mark.xcodeproj’//静态库的名称&lt;/p&gt;
+
+&lt;p&gt;xcodeproj ‘MarkDemo/MarkDemo.xcodeproj’//实例工程名称&lt;/p&gt;
+
+&lt;p&gt;target :Mark do//静态库需要引入的三方库&lt;/p&gt;
+
+&lt;p&gt;platform :ios, ‘7.0’&lt;/p&gt;
+
+&lt;p&gt;pod ‘AFNetworking’&lt;/p&gt;
+
+&lt;p&gt;xcodeproj ‘Mark/Mark.xcodeproj’&lt;/p&gt;
+
+&lt;p&gt;end&lt;/p&gt;
+
+&lt;p&gt;target :MarkDemo do//实例工程需要引入的三方库&lt;/p&gt;
+
+&lt;p&gt;platform :ios, ‘7.0’&lt;/p&gt;
+
+&lt;p&gt;pod ‘AFNetworking’&lt;/p&gt;
+
+&lt;p&gt;xcodeproj ‘MarkDemo/MarkDemo.xcodeproj’&lt;/p&gt;
+
+&lt;p&gt;end&lt;/p&gt;
+
+&lt;h2 id=&quot;pod-installpodfiledemo&quot;&gt;4.执行pod install。（确保你的podfile文件，静态工程文件，和你的demo在同一工程目录下）&lt;/h2&gt;
+&lt;hr /&gt;
+
+&lt;p&gt;执行成功之后我的目录是这样的。
+&lt;img src=&quot;http://leonyue.github.io/upload_images/596199-fd6388ca1ff93c71.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;section-1&quot;&gt;5.将自定义的静态库引入到主工程目录中去。&lt;/h2&gt;
+&lt;hr /&gt;
+
+&lt;p&gt;首先在Build Phases/Link Binary with Libraries中自定义的静态库添加进来。添加完成后我的是这样的。
+&lt;img src=&quot;http://leonyue.github.io/upload_images/596199-c7f9952d11c0e973.png&quot; alt=&quot;image&quot; /&gt;
+下一步就是将静态库的目录引用进来，在主工程的Target/Build Settings /User Header SearchPaths中添加$(BUILT_PRODUCTS_DIR),并且选择递归引用 也就是（recursive）。
+&lt;img src=&quot;http://leonyue.github.io/upload_images/596199-a33542e1ed4e3762.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;section-2&quot;&gt;结语：&lt;/h2&gt;
+&lt;hr /&gt;
+
+&lt;p&gt;现在多工程联编已经是企业级应用的必备了，不断可以灵活的应用自己的静态库，也能随时的更新pods提供的三方库，让项目管理起来非常的方便。&lt;/p&gt;
+
+&lt;h2 id=&quot;pod-install-&quot;&gt;附：pod install 加载慢的问题&lt;/h2&gt;
+&lt;hr /&gt;
+
+&lt;p&gt;最近使用CocoaPods来添加第三方类库，无论是执行pod install还是pod update都卡在了Analyzing dependencies不动&lt;/p&gt;
+
+&lt;p&gt;原因在于当执行以上两个命令的时候会升级CocoaPods的spec仓库，加一个参数可以省略这一步，然后速度就会提升不少。加参数的命令如下：&lt;/p&gt;
+
+&lt;p&gt;pod install –verbose –no-repo-update&lt;/p&gt;
+
+&lt;p&gt;pod update –verbose –no-repo-update&lt;/p&gt;
+
+&lt;p&gt;出现[!] Unable to find a pod with name matching `Af’ 错误解决方案&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://stackoverflow.com/questions/21342574/cocoapods-error-to-install-search-pods&quot;&gt;link&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;文／奔跑的码农（简书作者）
+原文链接：http://www.jianshu.com/p/4cb36b7ccc99
+著作权归作者所有，转载请联系作者获得授权，并标注“简书作者”。&lt;/p&gt;
+</description>
+      </item>
+    
+      <item>
         <title>自己markdown博客的图床程序</title>
         <link>https://leonyue.github.io/2015/08/22/github-ImagesUploadWebSite.html</link>
         <guid isPermaLink="true">https://leonyue.github.io/2015/08/22/github-ImagesUploadWebSite.html</guid>
