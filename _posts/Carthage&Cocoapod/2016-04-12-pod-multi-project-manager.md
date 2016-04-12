@@ -51,7 +51,7 @@ end
 ---
 
 执行成功之后我的目录是这样的。
-![image](./upload_images/596199-fd6388ca1ff93c71.png =100x)
+![image](../../upload_images/596199-fd6388ca1ff93c71.png =100x)
 
 ##  5.将自定义的静态库引入到主工程目录中去。
 ---
