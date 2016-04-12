@@ -13,6 +13,7 @@ description:
 
 ##  1.首先就是创建一个静态库，命名为Mark（这个随便你自己怎么定义）。
 ---
+<img src="http://leonyue.github.io/upload_images/80230176-7A80-46A5-B4CF-9EFE6D6B9A98.png" alt="Drawing" width="500px" />
 ![image](http://leonyue.github.io/upload_images/80230176-7A80-46A5-B4CF-9EFE6D6B9A98.png =500x)
 
 ##  2.创建一个实例工程，（也就是你需要开发的工程 或者是你已经创建好了的）。
