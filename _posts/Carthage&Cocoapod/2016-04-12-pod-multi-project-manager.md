@@ -13,7 +13,7 @@ description:
 
 ##  1.首先就是创建一个静态库，命名为Mark（这个随便你自己怎么定义）。
 ---
-![image](http://leonyue.github.io/upload_images/80230176-7A80-46A5-B4CF-9EFE6D6B9A98.png =100x)
+![image](./upload_images/80230176-7A80-46A5-B4CF-9EFE6D6B9A98.png =100x)
 
 ##  2.创建一个实例工程，（也就是你需要开发的工程 或者是你已经创建好了的）。
 ---
@@ -51,15 +51,15 @@ end
 ---
 
 执行成功之后我的目录是这样的。
-![image](http://leonyue.github.io/upload_images/596199-fd6388ca1ff93c71.png =100x)
+![image](./upload_images/596199-fd6388ca1ff93c71.png =100x)
 
 ##  5.将自定义的静态库引入到主工程目录中去。
 ---
 
 首先在Build Phases/Link Binary with Libraries中自定义的静态库添加进来。添加完成后我的是这样的。
-![image](http://leonyue.github.io/upload_images/596199-c7f9952d11c0e973.png =100x)
+![image](./upload_images/596199-c7f9952d11c0e973.png =100x)
 下一步就是将静态库的目录引用进来，在主工程的Target/Build Settings /User Header SearchPaths中添加$(BUILT_PRODUCTS_DIR),并且选择递归引用 也就是（recursive）。
-![image](http://leonyue.github.io/upload_images/596199-a33542e1ed4e3762.png =100x)
+![image](./upload_images/596199-a33542e1ed4e3762.png =100x)
 
 ##  结语：
 ---
