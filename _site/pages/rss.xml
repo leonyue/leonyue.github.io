@@ -80,8 +80,7 @@
 
 &lt;h2 id=&quot;mark&quot;&gt;1.首先就是创建一个静态库，命名为Mark（这个随便你自己怎么定义）。&lt;/h2&gt;
 &lt;hr /&gt;
-&lt;p&gt;&lt;img src=&quot;http://leonyue.github.io/upload_images/80230176-7A80-46A5-B4CF-9EFE6D6B9A98.png&quot; alt=&quot;Drawing&quot; width=&quot;500px&quot; /&gt;
-&lt;img src=&quot;http://leonyue.github.io/upload_images/80230176-7A80-46A5-B4CF-9EFE6D6B9A98.png =500x&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://leonyue.github.io/upload_images/80230176-7A80-46A5-B4CF-9EFE6D6B9A98.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;section&quot;&gt;2.创建一个实例工程，（也就是你需要开发的工程 或者是你已经创建好了的）。&lt;/h2&gt;
 &lt;hr /&gt;
@@ -119,15 +118,15 @@
 &lt;hr /&gt;
 
 &lt;p&gt;执行成功之后我的目录是这样的。
-&lt;img src=&quot;http://leonyue.github.io/upload_images/596199-fd6388ca1ff93c71.png =500x&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;http://leonyue.github.io/upload_images/596199-fd6388ca1ff93c71.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;section-1&quot;&gt;5.将自定义的静态库引入到主工程目录中去。&lt;/h2&gt;
 &lt;hr /&gt;
 
 &lt;p&gt;首先在Build Phases/Link Binary with Libraries中自定义的静态库添加进来。添加完成后我的是这样的。
-&lt;img src=&quot;http://leonyue.github.io/upload_images/596199-c7f9952d11c0e973.png =500x&quot; alt=&quot;image&quot; /&gt;
+&lt;img src=&quot;http://leonyue.github.io/upload_images/596199-c7f9952d11c0e973.png&quot; alt=&quot;image&quot; /&gt;
 下一步就是将静态库的目录引用进来，在主工程的Target/Build Settings /User Header SearchPaths中添加$(BUILT_PRODUCTS_DIR),并且选择递归引用 也就是（recursive）。
-&lt;img src=&quot;http://leonyue.github.io/upload_images/596199-a33542e1ed4e3762.png =500x&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;http://leonyue.github.io/upload_images/596199-a33542e1ed4e3762.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;section-2&quot;&gt;结语：&lt;/h2&gt;
 &lt;hr /&gt;
@@ -14643,11 +14642,20 @@ json映射类型要注意，否则返回会出现500错误，网上解决这个�
       </item>
     
       <item>
-        <title>Spring4+hibernate专题</title>
+        <title>Spring 0</title>
         <link>https://leonyue.github.io/2015/05/28/spring-0.html</link>
         <guid isPermaLink="true">https://leonyue.github.io/2015/05/28/spring-0.html</guid>
         <pubDate>Thu, 28 May 2015 00:00:00 +0800</pubDate>
-        <description>&lt;blockquote&gt;
+        <description>&lt;p&gt;I—
+layout: post
+title: Spring4+hibernate专题
+category: 专题
+tags: Spring,MVC,Rest,api,mysql
+keywords: Spring,MVC,Rest,api,mysql
+description: 
+—&lt;/p&gt;
+
+&lt;blockquote&gt;
   &lt;p&gt;之前一直都用.NET写web mvc 和api接口等服务代码的，不过由于现在自己的开发环境全部都换成了mac，.net环境在mac写的支持不是很好，所以
   尝试用java spring去写一些东西。对于Spring我也是初学者，但随着这几个月带着看看，现在已经可以完成  spring 相关服务端代码开发。现在整理一下
   之前遇到的问题，并写一些学习的心得和教程吧，也因为网上spring4.0以上版本的学习资料比较少，也比较杂。
