@@ -7,12 +7,32 @@ keywords: IJKPlayer
 description:
 ---
 
-##  IjkMediaPlayer *ijkmp_ios_create(int (*msg_loop)(void*))
----
-
 ````swift
 // init player  
 _mediaPlayer = ijkmp_ios_create(media_player_msg_loop);
+````
+
+````swift
+IjkMediaPlayer *ijkmp_ios_create(int (*msg_loop)(void*))
+{
+    IjkMediaPlayer *mp = ijkmp_create(msg_loop);
+    if (!mp)
+        goto fail;
+
+    mp->ffplayer->vout = SDL_VoutIos_CreateForGLES2();
+    if (!mp->ffplayer->vout)
+        goto fail;
+
+    mp->ffplayer->aout = SDL_AoutIos_CreateForAudioUnit();
+    if (!mp->ffplayer->vout)
+        goto fail;
+
+    return mp;
+
+fail:
+    ijkmp_dec_ref_p(&mp);
+    return NULL;
+}
 ````
 
 ````swift
