@@ -6,10 +6,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 <!--[if lte IE 8]><meta http-equiv="refresh" content="0;url=/ie.html"><![endif]-->
 
-<title>iOS蓝牙的开发专题 | 岳得建的技术博客</title>
+<title>IJKPlayer学习笔记 | 岳得建的技术博客</title>
 <meta name="author" content="岳得建">
 
-  <meta name="keywords" content="iOS,BLE,蓝牙">
+  <meta name="keywords" content="IJKPlayer">
 
 
 
@@ -189,80 +189,45 @@
     <div id="post">
       <div id="pjax">
         <article id="post__content">
-    <h1 id="post__title" data-identifier="20150717">iOS蓝牙的开发专题</h1>
-    <blockquote>
-  <h2 id="iosiosios">最近做一个iOS蓝牙设备的项目，需要用iOS连接外部蓝牙设备，就对iOS蓝牙相关技术做了一些研究，主要分为下面几个专题</h2>
-</blockquote>
-
-<h3 id="ios20150717ios-ble-1html"><a href="/2015/07/17/ios-BLE-1.html">iOS蓝牙开发（一）蓝牙相关基础知识</a></h3>
+    <h1 id="post__title" data-identifier="20160511">IJKPlayer学习笔记</h1>
+    <h2 id="ijkmediaplayer-ijkmpioscreateint-msgloopvoid">IjkMediaPlayer <em>ijkmp_ios_create(int (</em>msg_loop)(void*))</h2>
 <hr />
-<div class="highlighter-rouge"><pre class="highlight"><code>- 蓝牙常见名称和缩写
-- 蓝牙基础知识
-- 蓝牙和版本的使用限制
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">// init player  </span>
+<span class="n">_mediaPlayer</span> <span class="o">=</span> <span class="nf">ijkmp_ios_create</span><span class="p">(</span><span class="n">media_player_msg_loop</span><span class="p">);</span>
 </code></pre>
 </div>
 
-<h3 id="iosios20150814ios-ble-2html"><a href="/2015/08/14/ios-BLE-2.html">iOS蓝牙开发（二）ios连接外设的代码实现</a></h3>
-<hr />
-<div class="highlighter-rouge"><pre class="highlight"><code> 1. 建立中心角色
- 2. 扫描外设（discover）
- 3. 连接外设(connect)
- 4. 扫描外设中的服务和特征(discover)
-     - 4.1 获取外设的services
-     - 4.2 获取外设的Characteristics,获取Characteristics的值，获取Characteristics的Descriptor和Descriptor的值
- 5. 与外设做数据交互(explore and interact)
- 6. 订阅Characteristic的通知
- 7. 断开连接(disconnect)
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">int</span> <span class="nf">media_player_msg_loop</span><span class="p">(</span><span class="n">void</span><span class="o">*</span> <span class="n">arg</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kd">@autoreleasepool</span> <span class="p">{</span>
+        <span class="kt">IjkMediaPlayer</span> <span class="o">*</span><span class="n">mp</span> <span class="o">=</span> <span class="p">(</span><span class="kt">IjkMediaPlayer</span><span class="o">*</span><span class="p">)</span><span class="n">arg</span><span class="p">;</span>
+        <span class="n">__weak</span> <span class="kt">IJKFFMoviePlayerController</span> <span class="o">*</span><span class="n">ffpController</span> <span class="o">=</span> <span class="nf">ffplayerRetain</span><span class="p">(</span><span class="nf">ijkmp_set_weak_thiz</span><span class="p">(</span><span class="n">mp</span><span class="p">,</span> <span class="kt">NULL</span><span class="p">));</span>
+
+        <span class="k">while</span> <span class="p">(</span><span class="n">ffpController</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">@autoreleasepool</span> <span class="p">{</span>
+                <span class="kt">IJKFFMoviePlayerMessage</span> <span class="o">*</span><span class="n">msg</span> <span class="o">=</span> <span class="p">[</span><span class="n">ffpController</span> <span class="n">obtainMessage</span><span class="p">];</span>
+                <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">msg</span><span class="p">)</span>
+                    <span class="k">break</span><span class="p">;</span>
+
+                <span class="n">int</span> <span class="n">retval</span> <span class="o">=</span> <span class="nf">ijkmp_get_msg</span><span class="p">(</span><span class="n">mp</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">msg</span><span class="o">-&gt;</span><span class="n">_msg</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">retval</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+                    <span class="k">break</span><span class="p">;</span>
+
+                <span class="c1">// block-get should never return 0</span>
+                <span class="nf">assert</span><span class="p">(</span><span class="n">retval</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">);</span>
+
+                <span class="p">[</span><span class="n">ffpController</span> <span class="nv">performSelectorOnMainThread</span><span class="p">:</span><span class="kd">@selector(postEvent:)</span> <span class="nv">withObject</span><span class="p">:</span><span class="n">msg</span> <span class="nv">waitUntilDone</span><span class="p">:</span><span class="kt">NO</span><span class="p">];</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="c1">// retained in prepare_async, before SDL_CreateThreadEx</span>
+        <span class="nf">ijkmp_dec_ref_p</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mp</span><span class="p">);</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </code></pre>
 </div>
-
-<h3 id="iosapp20150907ios-ble-3html"><a href="/2015/09/07/ios-BLE-3.html">iOS蓝牙开发（三）app作为外设被连接的实现</a></h3>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>1. 打开peripheralManager，设置peripheralManager的委托
-2. 创建characteristics，characteristics的description 创建service，把characteristics添加到service中，再把service添加到peripheralManager中
-3. 开启广播advertising
-4. 对central的操作进行响应
-    - 4.1 读characteristics请求
-    - 4.2 写characteristics请求
-    - 4.4 订阅和取消订阅characteristics
-</code></pre>
-</div>
-
-<h3 id="iosbabybluetooth20150911ios-ble-4html"><a href="/2015/09/11/ios-BLE-4.html">iOS蓝牙开发（四）BabyBluetooth蓝牙库介绍</a></h3>
-<hr />
-<div class="highlighter-rouge"><pre class="highlight"><code>- corebluetooth有什么问题
-- BabyBluetooth有点和快速使用
-</code></pre>
-</div>
-
-<h2 id="section">今后计划更新</h2>
-
-<ul>
-  <li>
-    <p>iOS蓝牙开发（五）BabyBluetooth蓝牙库常见的业务常见了示例程序代码说明</p>
-  </li>
-  <li>
-    <p>iOS蓝牙开发（六）BabyBluetooth代码是如何实现的</p>
-    <ul>
-      <li>链式的函数调用的实现</li>
-      <li>委托频道切换的实现</li>
-      <li>有待完善的地方和后期的更新</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="section-1">最后</h2>
-
-<p>babyBluetooth交流群</p>
-
-<ul>
-  <li>313084771</li>
-  <li>530142592(满)</li>
-  <li>426603940(满)</li>
-  <li>168756967(满)</li>
-</ul>
-
-<p>感谢收看，如果对大家有帮助，请<a href="https://github.com/coolnameismy">github上follow和star</a>，本文发布在<a href="http://liuyanwei.jumppo.com/">刘彦玮的技术博客</a>，转载请注明出处</p>
 
     <div class="declare">
         <div>
@@ -273,9 +238,9 @@
 <!-- end #post__content -->
 
 <div id="post__share">
-  <a id="icon-twitter" class="fontello" href="https://twitter.com/intent/tweet?url=https://leonyue.github.io/2015/07/17/ios-BLE-0.html&text=iOS蓝牙的开发专题" target="_blank"></a>
+  <a id="icon-twitter" class="fontello" href="https://twitter.com/intent/tweet?url=https://leonyue.github.io/2016/05/11/IJKPlayer_study.html&text=IJKPlayer学习笔记" target="_blank"></a>
   <a id="icon-cc" class="fontello" href="http://github.com/leonyue" target="_blank"></a>
-  <a id="icon-weibo" class="fontello" href="http://v.t.sina.com.cn/share/share.php?url=https://leonyue.github.io/2015/07/17/ios-BLE-0.html&title=iOS蓝牙的开发专题" target="_blank"></a>
+  <a id="icon-weibo" class="fontello" href="http://v.t.sina.com.cn/share/share.php?url=https://leonyue.github.io/2016/05/11/IJKPlayer_study.html&title=IJKPlayer学习笔记" target="_blank"></a>
     <div class="share-info">分享一下~</div>
 </div>
 <!-- end #post__share -->

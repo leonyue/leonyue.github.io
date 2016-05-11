@@ -6,10 +6,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 <!--[if lte IE 8]><meta http-equiv="refresh" content="0;url=/ie.html"><![endif]-->
 
-<title>iOS蓝牙的开发专题 | 岳得建的技术博客</title>
+<title>使用Pods和自定义静态库实现多工程联编 | 岳得建的技术博客</title>
 <meta name="author" content="岳得建">
 
-  <meta name="keywords" content="iOS,BLE,蓝牙">
+  <meta name="keywords" content="Cocoapods,pods">
 
 
 
@@ -189,80 +189,83 @@
     <div id="post">
       <div id="pjax">
         <article id="post__content">
-    <h1 id="post__title" data-identifier="20150717">iOS蓝牙的开发专题</h1>
-    <blockquote>
-  <h2 id="iosiosios">最近做一个iOS蓝牙设备的项目，需要用iOS连接外部蓝牙设备，就对iOS蓝牙相关技术做了一些研究，主要分为下面几个专题</h2>
-</blockquote>
+    <h1 id="post__title" data-identifier="20160412">使用Pods和自定义静态库实现多工程联编</h1>
+    <p>近来随着公司项目开发的深入，项目的规范也就越来越高了，为了更加方便的管理自定义静态库与pods之间的联系，好好的研究了一番。</p>
 
-<h3 id="ios20150717ios-ble-1html"><a href="/2015/07/17/ios-BLE-1.html">iOS蓝牙开发（一）蓝牙相关基础知识</a></h3>
+<h2 id="mark">1.首先就是创建一个静态库，命名为Mark（这个随便你自己怎么定义）。</h2>
 <hr />
-<div class="highlighter-rouge"><pre class="highlight"><code>- 蓝牙常见名称和缩写
-- 蓝牙基础知识
-- 蓝牙和版本的使用限制
-</code></pre>
-</div>
+<p><img src="http://leonyue.github.io/upload_images/80230176-7A80-46A5-B4CF-9EFE6D6B9A98.png" alt="Drawing" width="500px" />
+<img src="http://leonyue.github.io/upload_images/80230176-7A80-46A5-B4CF-9EFE6D6B9A98.png =500x" alt="image" /></p>
 
-<h3 id="iosios20150814ios-ble-2html"><a href="/2015/08/14/ios-BLE-2.html">iOS蓝牙开发（二）ios连接外设的代码实现</a></h3>
+<h2 id="section">2.创建一个实例工程，（也就是你需要开发的工程 或者是你已经创建好了的）。</h2>
 <hr />
-<div class="highlighter-rouge"><pre class="highlight"><code> 1. 建立中心角色
- 2. 扫描外设（discover）
- 3. 连接外设(connect)
- 4. 扫描外设中的服务和特征(discover)
-     - 4.1 获取外设的services
-     - 4.2 获取外设的Characteristics,获取Characteristics的值，获取Characteristics的Descriptor和Descriptor的值
- 5. 与外设做数据交互(explore and interact)
- 6. 订阅Characteristic的通知
- 7. 断开连接(disconnect)
-</code></pre>
-</div>
 
-<h3 id="iosapp20150907ios-ble-3html"><a href="/2015/09/07/ios-BLE-3.html">iOS蓝牙开发（三）app作为外设被连接的实现</a></h3>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>1. 打开peripheralManager，设置peripheralManager的委托
-2. 创建characteristics，characteristics的description 创建service，把characteristics添加到service中，再把service添加到peripheralManager中
-3. 开启广播advertising
-4. 对central的操作进行响应
-    - 4.1 读characteristics请求
-    - 4.2 写characteristics请求
-    - 4.4 订阅和取消订阅characteristics
-</code></pre>
-</div>
-
-<h3 id="iosbabybluetooth20150911ios-ble-4html"><a href="/2015/09/11/ios-BLE-4.html">iOS蓝牙开发（四）BabyBluetooth蓝牙库介绍</a></h3>
+<h2 id="pod-file">3.书写pod file文件。（非常关键，因为格式有时候会造成很多的坑）</h2>
 <hr />
-<div class="highlighter-rouge"><pre class="highlight"><code>- corebluetooth有什么问题
-- BabyBluetooth有点和快速使用
-</code></pre>
-</div>
 
-<h2 id="section">今后计划更新</h2>
+<p>workspace ‘MarkSpace’//需要生成workspace的名称</p>
 
-<ul>
-  <li>
-    <p>iOS蓝牙开发（五）BabyBluetooth蓝牙库常见的业务常见了示例程序代码说明</p>
-  </li>
-  <li>
-    <p>iOS蓝牙开发（六）BabyBluetooth代码是如何实现的</p>
-    <ul>
-      <li>链式的函数调用的实现</li>
-      <li>委托频道切换的实现</li>
-      <li>有待完善的地方和后期的更新</li>
-    </ul>
-  </li>
-</ul>
+<p>xcodeproj ‘Mark/Mark.xcodeproj’//静态库的名称</p>
 
-<h2 id="section-1">最后</h2>
+<p>xcodeproj ‘MarkDemo/MarkDemo.xcodeproj’//实例工程名称</p>
 
-<p>babyBluetooth交流群</p>
+<p>target :Mark do//静态库需要引入的三方库</p>
 
-<ul>
-  <li>313084771</li>
-  <li>530142592(满)</li>
-  <li>426603940(满)</li>
-  <li>168756967(满)</li>
-</ul>
+<p>platform :ios, ‘7.0’</p>
 
-<p>感谢收看，如果对大家有帮助，请<a href="https://github.com/coolnameismy">github上follow和star</a>，本文发布在<a href="http://liuyanwei.jumppo.com/">刘彦玮的技术博客</a>，转载请注明出处</p>
+<p>pod ‘AFNetworking’</p>
+
+<p>xcodeproj ‘Mark/Mark.xcodeproj’</p>
+
+<p>end</p>
+
+<p>target :MarkDemo do//实例工程需要引入的三方库</p>
+
+<p>platform :ios, ‘7.0’</p>
+
+<p>pod ‘AFNetworking’</p>
+
+<p>xcodeproj ‘MarkDemo/MarkDemo.xcodeproj’</p>
+
+<p>end</p>
+
+<h2 id="pod-installpodfiledemo">4.执行pod install。（确保你的podfile文件，静态工程文件，和你的demo在同一工程目录下）</h2>
+<hr />
+
+<p>执行成功之后我的目录是这样的。
+<img src="http://leonyue.github.io/upload_images/596199-fd6388ca1ff93c71.png =500x" alt="image" /></p>
+
+<h2 id="section-1">5.将自定义的静态库引入到主工程目录中去。</h2>
+<hr />
+
+<p>首先在Build Phases/Link Binary with Libraries中自定义的静态库添加进来。添加完成后我的是这样的。
+<img src="http://leonyue.github.io/upload_images/596199-c7f9952d11c0e973.png =500x" alt="image" />
+下一步就是将静态库的目录引用进来，在主工程的Target/Build Settings /User Header SearchPaths中添加$(BUILT_PRODUCTS_DIR),并且选择递归引用 也就是（recursive）。
+<img src="http://leonyue.github.io/upload_images/596199-a33542e1ed4e3762.png =500x" alt="image" /></p>
+
+<h2 id="section-2">结语：</h2>
+<hr />
+
+<p>现在多工程联编已经是企业级应用的必备了，不断可以灵活的应用自己的静态库，也能随时的更新pods提供的三方库，让项目管理起来非常的方便。</p>
+
+<h2 id="pod-install-">附：pod install 加载慢的问题</h2>
+<hr />
+
+<p>最近使用CocoaPods来添加第三方类库，无论是执行pod install还是pod update都卡在了Analyzing dependencies不动</p>
+
+<p>原因在于当执行以上两个命令的时候会升级CocoaPods的spec仓库，加一个参数可以省略这一步，然后速度就会提升不少。加参数的命令如下：</p>
+
+<p>pod install –verbose –no-repo-update</p>
+
+<p>pod update –verbose –no-repo-update</p>
+
+<p>出现[!] Unable to find a pod with name matching `Af’ 错误解决方案</p>
+
+<p><a href="http://stackoverflow.com/questions/21342574/cocoapods-error-to-install-search-pods">link</a></p>
+
+<p>文／奔跑的码农（简书作者）
+原文链接：http://www.jianshu.com/p/4cb36b7ccc99
+著作权归作者所有，转载请联系作者获得授权，并标注“简书作者”。</p>
 
     <div class="declare">
         <div>
@@ -273,9 +276,9 @@
 <!-- end #post__content -->
 
 <div id="post__share">
-  <a id="icon-twitter" class="fontello" href="https://twitter.com/intent/tweet?url=https://leonyue.github.io/2015/07/17/ios-BLE-0.html&text=iOS蓝牙的开发专题" target="_blank"></a>
+  <a id="icon-twitter" class="fontello" href="https://twitter.com/intent/tweet?url=https://leonyue.github.io/2016/04/12/pod-multi-project-manager.html&text=使用Pods和自定义静态库实现多工程联编" target="_blank"></a>
   <a id="icon-cc" class="fontello" href="http://github.com/leonyue" target="_blank"></a>
-  <a id="icon-weibo" class="fontello" href="http://v.t.sina.com.cn/share/share.php?url=https://leonyue.github.io/2015/07/17/ios-BLE-0.html&title=iOS蓝牙的开发专题" target="_blank"></a>
+  <a id="icon-weibo" class="fontello" href="http://v.t.sina.com.cn/share/share.php?url=https://leonyue.github.io/2016/04/12/pod-multi-project-manager.html&title=使用Pods和自定义静态库实现多工程联编" target="_blank"></a>
     <div class="share-info">分享一下~</div>
 </div>
 <!-- end #post__share -->
