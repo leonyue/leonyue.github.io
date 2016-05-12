@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 <!--[if lte IE 8]><meta http-equiv="refresh" content="0;url=/ie.html"><![endif]-->
 
-<title>pragma pack(非常有用的字节对齐用法说明) | 岳得建的技术博客</title>
+<title>c语言向函数传递函数作为参数 | 岳得建的技术博客</title>
 <meta name="author" content="岳得建">
 
 
@@ -155,85 +155,27 @@
     <div id="post">
       <div id="pjax">
         <article id="post__content">
-    <h1 id="post__title" data-identifier="20160512">pragma pack(非常有用的字节对齐用法说明)</h1>
-    <h2 id="section">介绍</h2>
-<hr />
-<p>程序编译器对结构的存储的特殊处理确实提高CPU存储变量的速度，但是有时候也带来了一些麻烦，我们也屏蔽掉变量默认的对齐方式，自己可以设定变量的对齐方式。
-编译器中提供了#pragma pack(n)来设定变量以n字节对齐方式。n字节对齐就是说变量存放的起始地址的偏移量有两种情况：第一、如果n大于等于该变量所占用的字节数，那么偏移量必须满足默认的对齐方式，第二、如果n小于该变量的类型所占用的字节数，那么偏移量为n的倍数，不用满足默认的对齐方式。结构的总大小也有个约束条件，分下面两种情况：如果n大于所有成员变量类型所占用的字节数，那么结构的总大小必须为占用空间最大的变量占用的空间数的倍数；否则必须为n的倍数。</p>
+    <h1 id="post__title" data-identifier="20160512">c语言向函数传递函数作为参数</h1>
+    <h4 id="section">函数</h4>
 
-<h2 id="section-1">测试代码</h2>
-<hr />
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">//</span>
-<span class="c1">//  main.m</span>
-<span class="c1">//  testC</span>
-<span class="c1">//</span>
-<span class="c1">//  Created by YC-JG-YXKF-PC35 on 16/5/10.</span>
-<span class="c1">//  Copyright © 2016年 yuneec. All rights reserved.</span>
-<span class="c1">//</span>
-
-<span class="cp">#import &lt;Foundation/Foundation.h&gt;</span>
-
-<span class="cp">#pragma pack(push)</span>
-<span class="cp">#pragma pack(1)</span>
-
-<span class="kd">struct</span> <span class="n">test</span>
-<span class="p">{</span>
-    <span class="n">char</span> <span class="n">x1</span><span class="p">;</span>
-    <span class="n">short</span> <span class="n">x2</span><span class="p">;</span>
-    <span class="n">float</span> <span class="n">x3</span><span class="p">;</span>
-    <span class="n">char</span> <span class="n">x4</span><span class="p">;</span>
-<span class="p">};</span>
-<span class="cp">#pragma pack(pop)</span>
-
-<span class="n">int</span> <span class="nf">main</span><span class="p">(</span><span class="n">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">const</span> <span class="n">char</span> <span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
-    <span class="kd">@autoreleasepool</span> <span class="p">{</span>
-        <span class="c1">// insert code here...</span>
-
-        <span class="kd">struct</span> <span class="n">test</span> <span class="n">a</span><span class="p">;</span>
-        <span class="n">a</span><span class="o">.</span><span class="n">x1</span> <span class="o">=</span> <span class="sc">'z'</span><span class="p">;</span>
-        <span class="n">a</span><span class="o">.</span><span class="n">x2</span> <span class="o">=</span> <span class="mi">11112</span><span class="p">;</span>
-        <span class="n">a</span><span class="o">.</span><span class="n">x3</span> <span class="o">=</span> <span class="o">-</span><span class="mf">16.17</span><span class="p">;</span>
-        <span class="n">a</span><span class="o">.</span><span class="n">x4</span> <span class="o">=</span> <span class="sc">'z'</span><span class="p">;</span>
-        <span class="kt">NSLog</span><span class="p">(</span><span class="s">@"size of a:%lu"</span><span class="p">,</span><span class="nf">sizeof</span><span class="p">(</span><span class="n">a</span><span class="p">));</span>
-
-
-        <span class="n">char</span> <span class="o">*</span><span class="n">b</span> <span class="o">=</span> <span class="nf">malloc</span><span class="p">(</span><span class="nf">sizeof</span><span class="p">(</span><span class="n">a</span><span class="p">));</span>
-        <span class="nf">memcpy</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">,</span> <span class="nf">sizeof</span><span class="p">(</span><span class="n">a</span><span class="p">));</span>
-        <span class="kt">NSData</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="kt">NSData</span> <span class="nv">dataWithBytes</span><span class="p">:</span><span class="n">b</span> <span class="nv">length</span><span class="p">:</span><span class="nf">sizeof</span><span class="p">(</span><span class="n">a</span><span class="p">)];</span>
-        <span class="n">int</span> <span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
-        <span class="nf">printf</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">char</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">n</span> <span class="p">?</span> <span class="s">"小端</span><span class="se">\n</span><span class="s">"</span> <span class="p">:</span> <span class="s">"大端</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
-        <span class="n">char</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
-<span class="c1">//        short x2 = (b[2] &lt;&lt; 8) + b[1]; //左移2^8 一个字节 小端低地址低位</span>
-        <span class="n">short</span> <span class="n">x2</span><span class="p">;</span>
-        <span class="nf">memcpy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">x2</span><span class="p">,</span> <span class="n">b</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="nf">sizeof</span><span class="p">(</span><span class="n">short</span><span class="p">));</span>
-        <span class="n">float</span> <span class="n">x3</span><span class="p">;</span>
-        <span class="nf">memcpy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">x3</span><span class="p">,</span> <span class="n">b</span><span class="o">+</span><span class="mi">3</span><span class="p">,</span> <span class="nf">sizeof</span><span class="p">(</span><span class="n">float</span><span class="p">));</span>
-
-<span class="c1">//        *(char *)&amp;x3 = *(b+3);</span>
-<span class="c1">//        *x3f = 0xae;</span>
-<span class="c1">//        *(x3f+1)=0x47;</span>
-<span class="c1">//        *(x3f+2)=0x81;</span>
-<span class="c1">//        *(x3f+3)=0xc1;</span>
-
-
-
-
-        <span class="n">char</span> <span class="n">x4</span> <span class="o">=</span> <span class="mh">0x7a</span><span class="p">;</span>
-        <span class="nf">free</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
-        <span class="kt">NSLog</span><span class="p">(</span><span class="s">@"Hello, World!"</span><span class="p">);</span>
-
-
-    <span class="p">}</span>
-    <span class="cm">/*
-     1字节
-    &lt;7a682b33 3333417a&gt;
-     自然
-    &lt;7a00682b 33333341 7a000000&gt;
-     */</span>
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">int</span> <span class="nf">aFunc</span><span class="p">(){</span>
+    <span class="n">int</span> <span class="n">value</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">value</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">int</span> <span class="nf">bFunc</span><span class="p">(</span><span class="nf">int</span> <span class="p">(</span><span class="o">*</span><span class="n">f</span><span class="p">)()){</span>
+    <span class="k">return</span> <span class="nf">f</span><span class="p">();</span>
+<span class="p">}</span>
 </code></pre>
 </div>
+
+<h4 id="ab">将函数a传递到b中</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">int</span> <span class="n">x</span> <span class="o">=</span>  <span class="nf">bFunc</span><span class="p">(</span><span class="n">aFunc</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<h4 id="section-1">执行结果</h4>
+<p><code class="highlighter-rouge">x = 2</code></p>
 
     <div class="declare">
         <div>
@@ -244,9 +186,9 @@
 <!-- end #post__content -->
 
 <div id="post__share">
-  <a id="icon-twitter" class="fontello" href="https://twitter.com/intent/tweet?url=https://leonyue.github.io/2016/05/12/Pragma-pack.html&text=pragma pack(非常有用的字节对齐用法说明)" target="_blank"></a>
+  <a id="icon-twitter" class="fontello" href="https://twitter.com/intent/tweet?url=https://leonyue.github.io/2016/05/12/method-as-parameter.html&text=c语言向函数传递函数作为参数" target="_blank"></a>
   <a id="icon-cc" class="fontello" href="http://github.com/leonyue" target="_blank"></a>
-  <a id="icon-weibo" class="fontello" href="http://v.t.sina.com.cn/share/share.php?url=https://leonyue.github.io/2016/05/12/Pragma-pack.html&title=pragma pack(非常有用的字节对齐用法说明)" target="_blank"></a>
+  <a id="icon-weibo" class="fontello" href="http://v.t.sina.com.cn/share/share.php?url=https://leonyue.github.io/2016/05/12/method-as-parameter.html&title=c语言向函数传递函数作为参数" target="_blank"></a>
     <div class="share-info">分享一下~</div>
 </div>
 <!-- end #post__share -->

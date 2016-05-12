@@ -3,6 +3,13 @@
 
     
     <url>
+        <loc>https://leonyue.github.io/2016/05/12/method-as-parameter.html</loc>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+        <lastmod>2016-05-12 00:00:00 +0800</lastmod>
+    </url>
+    
+    <url>
         <loc>https://leonyue.github.io/2016/05/12/fushu-buma-calculation.html</loc>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
