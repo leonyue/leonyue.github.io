@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 使用Pods和自定义静态库实现多工程联编
-category: 三方库管理
+category: iOS
 tags: Cocoapods
 keywords: Cocoapods,pods
 description:
