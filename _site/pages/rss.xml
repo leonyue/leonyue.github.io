@@ -6,6 +6,126 @@
     <description></description>
     
       <item>
+        <title>负数补码运算</title>
+        <link>https://leonyue.github.io/2016/05/12/fushu-buma-calculation.html</link>
+        <guid isPermaLink="true">https://leonyue.github.io/2016/05/12/fushu-buma-calculation.html</guid>
+        <pubDate>Thu, 12 May 2016 00:00:00 +0800</pubDate>
+        <description>&lt;h4 id=&quot;section&quot;&gt;补码计算&lt;/h4&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;正数的补码：与原码相同。&lt;br /&gt;
+【例1】+9的补码是00001001。&lt;/li&gt;
+  &lt;li&gt;负数的补码：符号位为1，其余位为该数绝对值的原码按位取反；然后整个数加1。&lt;br /&gt;
+【例2】求-7的补码。 &lt;br /&gt;
+因为给定数是负数，则符号位为“1”。&lt;br /&gt;
+后七位：+7的原码（0000111）→按位取反（1111000）→加1（1111001）&lt;br /&gt;
+所以-7的补码是11111001。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&quot;section-1&quot;&gt;补码减法&lt;/h4&gt;
+&lt;p&gt;[X-Y]补 = [X]补 - [Y]补 = [X]补 + [-Y]补&lt;br /&gt;
+其中[-Y]补称为负补，求负补的方法是：所有位（包括符号位）按位取反；然后整个数加1。&lt;br /&gt;
+&lt;strong&gt;**&lt;em&gt;以上内容来自百度知道&lt;/em&gt;&lt;/strong&gt;***&lt;br /&gt;
+按照补码减法的规则：&lt;br /&gt;
+[-54-30]补 = [-54]补 + [-30]补&lt;br /&gt;
+-54的补码：因为是负数，所以符号位为1，54=32+16+4+2=0110110(2),取反=1001001，加1=1001010，所以-54的补码是1 1001010.&lt;br /&gt;
+同理,30=16+8+4+2=0011110(2),取反=1100001，加1=1100010，-30的补码是1 1100010.&lt;br /&gt;
+[-54-30]补=1 1001010 + 1 1100010 = 1 0101100&lt;br /&gt;
+根据补码的补码是原码：&lt;br /&gt;
+[[-54-30]补]补=原码&lt;br /&gt;
+符号位为1，说明为负数，0101100取反=1010011，加1=1010100&lt;br /&gt;
+转化为10进制，得84&lt;br /&gt;
+故结果为-84&lt;/p&gt;
+</description>
+      </item>
+    
+      <item>
+        <title>pragma pack(非常有用的字节对齐用法说明)</title>
+        <link>https://leonyue.github.io/2016/05/12/Pragma-pack.html</link>
+        <guid isPermaLink="true">https://leonyue.github.io/2016/05/12/Pragma-pack.html</guid>
+        <pubDate>Thu, 12 May 2016 00:00:00 +0800</pubDate>
+        <description>&lt;h2 id=&quot;section&quot;&gt;介绍&lt;/h2&gt;
+&lt;hr /&gt;
+&lt;p&gt;程序编译器对结构的存储的特殊处理确实提高CPU存储变量的速度，但是有时候也带来了一些麻烦，我们也屏蔽掉变量默认的对齐方式，自己可以设定变量的对齐方式。
+编译器中提供了#pragma pack(n)来设定变量以n字节对齐方式。n字节对齐就是说变量存放的起始地址的偏移量有两种情况：第一、如果n大于等于该变量所占用的字节数，那么偏移量必须满足默认的对齐方式，第二、如果n小于该变量的类型所占用的字节数，那么偏移量为n的倍数，不用满足默认的对齐方式。结构的总大小也有个约束条件，分下面两种情况：如果n大于所有成员变量类型所占用的字节数，那么结构的总大小必须为占用空间最大的变量占用的空间数的倍数；否则必须为n的倍数。&lt;/p&gt;
+
+&lt;h2 id=&quot;section-1&quot;&gt;测试代码&lt;/h2&gt;
+&lt;hr /&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;//&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//  main.m&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//  testC&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//  Created by YC-JG-YXKF-PC35 on 16/5/10.&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//  Copyright © 2016年 yuneec. All rights reserved.&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//&lt;/span&gt;
+
+&lt;span class=&quot;cp&quot;&gt;#import &amp;lt;Foundation/Foundation.h&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;cp&quot;&gt;#pragma pack(push)&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;#pragma pack(1)&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;short&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;#pragma pack(pop)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;argc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[])&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;@autoreleasepool&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// insert code here...&lt;/span&gt;
+
+        &lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;sc&quot;&gt;&#39;z&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;11112&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;16.17&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x4&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;sc&quot;&gt;&#39;z&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;kt&quot;&gt;NSLog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;@&quot;size of a:%lu&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+
+
+        &lt;span class=&quot;n&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;malloc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+        &lt;span class=&quot;nf&quot;&gt;memcpy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+        &lt;span class=&quot;kt&quot;&gt;NSData&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;NSData&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;dataWithBytes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)];&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;nf&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;小端&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;大端&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//        short x2 = (b[2] &amp;lt;&amp;lt; 8) + b[1]; //左移2^8 一个字节 小端低地址低位&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;short&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;nf&quot;&gt;memcpy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;short&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;nf&quot;&gt;memcpy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;//        *(char *)&amp;amp;x3 = *(b+3);&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//        *x3f = 0xae;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//        *(x3f+1)=0x47;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//        *(x3f+2)=0x81;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//        *(x3f+3)=0xc1;&lt;/span&gt;
+
+
+
+
+        &lt;span class=&quot;n&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x4&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x7a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;nf&quot;&gt;free&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;kt&quot;&gt;NSLog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;@&quot;Hello, World!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;cm&quot;&gt;/*
+     1字节
+    &amp;lt;7a682b33 3333417a&amp;gt;
+     自然
+    &amp;lt;7a00682b 33333341 7a000000&amp;gt;
+     */&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+      </item>
+    
+      <item>
         <title>IJKPlayer学习笔记</title>
         <link>https://leonyue.github.io/2016/05/11/IJKPlayer_study.html</link>
         <guid isPermaLink="true">https://leonyue.github.io/2016/05/11/IJKPlayer_study.html</guid>

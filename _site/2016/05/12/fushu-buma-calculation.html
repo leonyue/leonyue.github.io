@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 <!--[if lte IE 8]><meta http-equiv="refresh" content="0;url=/ie.html"><![endif]-->
 
-<title>iOS动画和特效专题（零）- 大纲和计划 | 岳得建的技术博客</title>
+<title>负数补码运算 | 岳得建的技术博客</title>
 <meta name="author" content="岳得建">
 
 
@@ -153,20 +153,33 @@
     <div id="post">
       <div id="pjax">
         <article id="post__content">
-    <h1 id="post__title" data-identifier="20151029">iOS动画和特效专题（零）- 大纲和计划</h1>
-    <ul>
-  <li><a href="http://liuyanwei.jumppo.com/2015/10/30/iOS-Animation-UIViewAndCoreAnimation.html">iOS动画和特效（一）UIView动画和CoreAnimation</a></li>
-  <li><a href="http://liuyanwei.jumppo.com/2015/10/30/iOS-UIKit-Dynamics.html">iOS动画和特效（二）UIKit力学行为</a></li>
-  <li><a href="http://liuyanwei.jumppo.com/2015/11/01/iOS-MotionEffects.html">iOS动画和特效（三）MotionEffects</a></li>
-  <li><a href="http://liuyanwei.jumppo.com/2015/11/06/iOS-controller-transitioning.html">iOS动画和特效（四）controller间的自定义过渡效果</a></li>
-  <li><a href="http://liuyanwei.jumppo.com/2015/11/16/iOS-Implicit-Animation.html">iOS动画和特效（五）layer隐式动画</a></li>
-  <li><a href="http://liuyanwei.jumppo.com/2015/11/22/iOS-library-spring.html">iOS动画和特效（六）swift动画库spring使用和代码拆解</a></li>
-  <li><a href="http://liuyanwei.jumppo.com/2015/11/24/iOS-affine-transfermation-animation.html">iOS动画和特效（七）仿射变换-CGAffineTransform</a></li>
-</ul>
+    <h1 id="post__title" data-identifier="20160512">负数补码运算</h1>
+    <h4 id="section">补码计算</h4>
 
-<h2 id="section">最后</h2>
+<ol>
+  <li>正数的补码：与原码相同。<br />
+【例1】+9的补码是00001001。</li>
+  <li>负数的补码：符号位为1，其余位为该数绝对值的原码按位取反；然后整个数加1。<br />
+【例2】求-7的补码。 <br />
+因为给定数是负数，则符号位为“1”。<br />
+后七位：+7的原码（0000111）→按位取反（1111000）→加1（1111001）<br />
+所以-7的补码是11111001。</li>
+</ol>
 
-<p>感谢收看，如果对大家有帮助，请<a href="https://github.com/coolnameismy">github上follow和star</a>，本文发布在<a href="http://liuyanwei.jumppo.com/">刘彦玮的技术博客</a>，转载请注明出处</p>
+<h4 id="section-1">补码减法</h4>
+<p>[X-Y]补 = [X]补 - [Y]补 = [X]补 + [-Y]补<br />
+其中[-Y]补称为负补，求负补的方法是：所有位（包括符号位）按位取反；然后整个数加1。<br />
+<strong>**<em>以上内容来自百度知道</em></strong>***<br />
+按照补码减法的规则：<br />
+[-54-30]补 = [-54]补 + [-30]补<br />
+-54的补码：因为是负数，所以符号位为1，54=32+16+4+2=0110110(2),取反=1001001，加1=1001010，所以-54的补码是1 1001010.<br />
+同理,30=16+8+4+2=0011110(2),取反=1100001，加1=1100010，-30的补码是1 1100010.<br />
+[-54-30]补=1 1001010 + 1 1100010 = 1 0101100<br />
+根据补码的补码是原码：<br />
+[[-54-30]补]补=原码<br />
+符号位为1，说明为负数，0101100取反=1010011，加1=1010100<br />
+转化为10进制，得84<br />
+故结果为-84</p>
 
     <div class="declare">
         <div>
@@ -177,9 +190,9 @@
 <!-- end #post__content -->
 
 <div id="post__share">
-  <a id="icon-twitter" class="fontello" href="https://twitter.com/intent/tweet?url=https://leonyue.github.io/2015/10/29/iOS-animation-0.html&text=iOS动画和特效专题（零）- 大纲和计划" target="_blank"></a>
+  <a id="icon-twitter" class="fontello" href="https://twitter.com/intent/tweet?url=https://leonyue.github.io/2016/05/12/fushu-buma-calculation.html&text=负数补码运算" target="_blank"></a>
   <a id="icon-cc" class="fontello" href="http://github.com/leonyue" target="_blank"></a>
-  <a id="icon-weibo" class="fontello" href="http://v.t.sina.com.cn/share/share.php?url=https://leonyue.github.io/2015/10/29/iOS-animation-0.html&title=iOS动画和特效专题（零）- 大纲和计划" target="_blank"></a>
+  <a id="icon-weibo" class="fontello" href="http://v.t.sina.com.cn/share/share.php?url=https://leonyue.github.io/2016/05/12/fushu-buma-calculation.html&title=负数补码运算" target="_blank"></a>
     <div class="share-info">分享一下~</div>
 </div>
 <!-- end #post__share -->
