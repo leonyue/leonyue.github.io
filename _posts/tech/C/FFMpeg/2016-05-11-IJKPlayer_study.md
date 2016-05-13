@@ -1,7 +1,7 @@
 ---
 layout: post
 title: IJKPlayer学习笔记
-category: C语言
+category: 流媒体
 tags: IJKPlayer
 keywords: IJKPlayer
 description:

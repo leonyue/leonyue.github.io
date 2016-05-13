@@ -6,10 +6,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 <!--[if lte IE 8]><meta http-equiv="refresh" content="0;url=/ie.html"><![endif]-->
 
-<title>css3属性rem的使用 | 岳得建的技术博客</title>
+<title>FFmpeg深入分析之零-基础 | 岳得建的技术博客</title>
 <meta name="author" content="岳得建">
 
-  <meta name="keywords" content="Jekyll,Github">
+  <meta name="keywords" content="IJKPlayer">
 
 
 
@@ -161,67 +161,33 @@
     <div id="post">
       <div id="pjax">
         <article id="post__content">
-    <h1 id="post__title" data-identifier="20151126">css3属性rem的使用</h1>
-    <p>rem 是指根元素（root element，html），这是一个css3样式，IE9+，Firefox、Chrome、Safari、Opera 的主流版本支持。</p>
+    <h1 id="post__title" data-identifier="20160513">FFmpeg深入分析之零-基础</h1>
+    <p>FFmpeg是相当强大的多媒体编解码框架，在深入分析其源代码之前必须要有基本的多媒体基础知识，否则其源代码会非常晦涩难懂。本文将从介绍一些基本的多媒体只是，主要是为研读ffmpeg源代码做准备，比如一些编解码部分，只有真正了解了多媒体处理的基本流程，研读ffmpeg源代码才能事半功倍。
+下面分析一下多媒体中最基本最核心的视频解码过程，平常我们从网上下载一部电影或者一首歌曲，那么相应的多媒体播放器为我们做好了一切工作，我们只用欣赏就ok了。目前几乎所有的主流多媒体播放器都是基于开源多媒体框架ffmpeg来做的，可见ffmpeg的强大。下面是对一个媒体文件进行解码的主要流程：</p>
 
-<p>作用：css中他可以代替px作为大小单位使用，但是这个大小和px有个重要的区别就是他的大小是相对的</p>
+<p><img src="../../../upload/26611383_1383570082Eed9.jpg" alt="image" /></p>
 
-<h2 id="section">使用情况</h2>
+<h2 id="demux">1.	解复用（Demux）</h2>
 <hr />
 
-<p>国外大量使用rem代替px，国内目前大多数用的都是px，不过越来越多的国内互联网公司已经开始使用rem代替px</p>
+<p>当我们打开一个多媒体文件之后，第一步就是解复用，称之为Demux。为什么需要这一步，这一步究竟是做什么的？我们知道在一个多媒体文件中，既包括音频也包括视频，而且音频和视频都是分开进行压缩的，因为音频和视频的压缩算法不一样，既然压缩算法不一样，那么肯定解码也不一样，所以需要对音频和视频分别进行解码。虽然音频和视频是分开进行压缩的，但是为了传输过程的方便，将压缩过的音频和视频捆绑在一起进行传输。所以我们解码的第一步就是将这些绑在一起的音频和视频流分开来，也就是传说中的解复用，所以一句话，解复用这一步就是将文件中捆绑在一起的音频流和视频流分开来以方便后面分别对它们进行解码，下面是Demux之后的效果。</p>
 
-<h2 id="section-1">相对大小</h2>
+<p><img src="../../../upload/26611383_1383570262D3Zs.jpg" alt="image" /></p>
+
+<h2 id="decode">2.	解码（Decode）</h2>
 <hr />
 
-<p>根元素默认的 font-size 都是 16px，在不设置默认根元素的font-size时，1rem=16px，但是rem是一个相对单位，相对于根元素的字体大小。如果我们这里设置根元素的 <code class="highlighter-rouge">font-size = 62.5%  /* 10÷16=62.5% */</code> ，那么1rem就等于10px,有很多公司这么做，便于px和rem的换算</p>
+<p>这一步不用多说，一个多媒体文件肯定是经过某种或几种格式的压缩的，也就是通常所说的视频和音频编码，编码是为了减少数据量，否则的话对我们的存储设备是一个挑战，如果是流媒体的话对网络带宽也是一个几乎不可能完成的任务。所以我们必须对媒体信息进行尽可能的压缩。</p>
 
-<h2 id="section-2">优点</h2>
+<h2 id="ffmpegapi">3.	FFmpeg中解码流程对应的API函数</h2>
 <hr />
 
-<p>网上有很多介绍rem的文章，但是都没有说rem的优点在哪，为什么用它。我觉得他最大的优点就是使用rem为单位，整体页面缩放会变得很简单（直接修改root元素的单位大小，那么所有以rem做单位的元素都会自动放大或缩小）</p>
-
-<p>看一个例子：页面中有2个div，红色的大小用px标示，绿色大小用rem标示，现在定时修改root元素的大小，可以发现用px作为单位的元素大小不会产生变化，而用em为单位的元素大小都根据root元素的变化而变化。这种特效做整体页面缩放，页面自适应都有很多好处</p>
-
-<div style="background-color:red;width:32px;height:32px;display:inline-block"></div>
-<div style="background-color:green;width:2rem;height:2rem;display:inline-block"></div>
-
-<script type="text/javascript">
-     var defaultsize = 16
-     setInterval(
-            function(){
-                if(defaultsize>50){
-                    defaultsize = 16
-                }
-                document.documentElement.style.fontSize = defaultsize++ + "px"
-            },100)
-</script>
-
-<p>代码：</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>
-<span class="nt">&lt;div</span> <span class="na">style=</span><span class="s">"background-color:red;width:32px;height:32px;display:inline-block"</span><span class="nt">&gt;&lt;/div&gt;</span>
-<span class="nt">&lt;div</span> <span class="na">style=</span><span class="s">"background-color:green;width:2rem;height:2rem;display:inline-block"</span><span class="nt">&gt;&lt;/div&gt;</span>
-
-<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
-     <span class="kd">var</span> <span class="nx">defaultsize</span> <span class="o">=</span> <span class="mi">16</span>
-     <span class="nx">setInterval</span><span class="p">(</span>
-            <span class="kd">function</span><span class="p">(){</span>
-                <span class="k">if</span><span class="p">(</span><span class="nx">defaultsize</span><span class="o">&gt;</span><span class="mi">50</span><span class="p">){</span>
-                    <span class="nx">defaultsize</span> <span class="o">=</span> <span class="mi">16</span>
-                <span class="p">}</span>
-                <span class="nb">document</span><span class="p">.</span><span class="nx">documentElement</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">fontSize</span> <span class="o">=</span> <span class="nx">defaultsize</span><span class="o">++</span> <span class="o">+</span> <span class="s2">"px"</span>
-            <span class="p">},</span><span class="mi">100</span><span class="p">)</span>
-<span class="nt">&lt;/script&gt;</span>
-
-</code></pre>
-</div>
-<p>##  推荐阅读
-—</p>
-
-<p><a href="http://isux.tencent.com/web-app-rem.html">web app变革之rem</a></p>
-
-<p>感谢收看，如果对大家有帮助，请<a href="https://github.com/coolnameismy">github上follow和star</a>，本文发布在<a href="http://liuyanwei.jumppo.com/">刘彦玮的技术博客</a>，转载请注明出处</p>
+<p>了解了上面的一个媒体文件从打开到解码的流程，就可以很轻松的阅读ffmpeg代码，ffmpeg的框架也基本是按照这个流程来的，但不是每个流程对应一个API，下面这副图是我分析ffmpeg并根据自己的理解得到的ffmpeg解码流程对应的API，我想这幅图应该对理解ffmpeg和编解码有一些帮助。
+<img src="../../../upload/26611383_1383570533krME.jpg" alt="image" /><br />
+Ffmpeg中Demux这一步是通过
+avformat_open_input（）这个api来做的，这个api读出文件的头部信息，并做demux，在此之后我们就可以读取媒体文件中的音频和视频流，然后通过av_read_frame()从音频和视频流中读取出基本数据流packet，然后将packet送到avcodec_decode_video2()和相对应的api进行解码。<br />
+后续会对ffmpeg的代码进行深入探讨，本文知识一个铺垫！<br />
+<a href="http://blog.chinaunix.net/uid-26611383-id-3976154.html">原文地址</a></p>
 
     <div class="declare">
         <div>
@@ -232,9 +198,9 @@
 <!-- end #post__content -->
 
 <div id="post__share">
-  <a id="icon-twitter" class="fontello" href="https://twitter.com/intent/tweet?url=https://leonyue.github.io/2015/11/26/rem-em-px.html&text=css3属性rem的使用" target="_blank"></a>
+  <a id="icon-twitter" class="fontello" href="https://twitter.com/intent/tweet?url=https://leonyue.github.io/2016/05/13/Media-decode.html&text=FFmpeg深入分析之零-基础" target="_blank"></a>
   <a id="icon-cc" class="fontello" href="http://github.com/leonyue" target="_blank"></a>
-  <a id="icon-weibo" class="fontello" href="http://v.t.sina.com.cn/share/share.php?url=https://leonyue.github.io/2015/11/26/rem-em-px.html&title=css3属性rem的使用" target="_blank"></a>
+  <a id="icon-weibo" class="fontello" href="http://v.t.sina.com.cn/share/share.php?url=https://leonyue.github.io/2016/05/13/Media-decode.html&title=FFmpeg深入分析之零-基础" target="_blank"></a>
     <div class="share-info">分享一下~</div>
 </div>
 <!-- end #post__share -->
