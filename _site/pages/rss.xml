@@ -262,7 +262,7 @@ avformat_open_input（）这个api来做的，这个api读出文件的头部信�
 
 &lt;h2 id=&quot;mark&quot;&gt;1.首先就是创建一个静态库，命名为Mark（这个随便你自己怎么定义）。&lt;/h2&gt;
 &lt;hr /&gt;
-&lt;p&gt;&lt;img src=&quot;http://leonyue.github.io/upload_images/80230176-7A80-46A5-B4CF-9EFE6D6B9A98.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;../../../upload/80230176-7A80-46A5-B4CF-9EFE6D6B9A98.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;section&quot;&gt;2.创建一个实例工程，（也就是你需要开发的工程 或者是你已经创建好了的）。&lt;/h2&gt;
 &lt;hr /&gt;
@@ -300,15 +300,15 @@ avformat_open_input（）这个api来做的，这个api读出文件的头部信�
 &lt;hr /&gt;
 
 &lt;p&gt;执行成功之后我的目录是这样的。
-&lt;img src=&quot;http://leonyue.github.io/upload_images/596199-fd6388ca1ff93c71.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;../../../upload/596199-fd6388ca1ff93c71.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;section-1&quot;&gt;5.将自定义的静态库引入到主工程目录中去。&lt;/h2&gt;
 &lt;hr /&gt;
 
 &lt;p&gt;首先在Build Phases/Link Binary with Libraries中自定义的静态库添加进来。添加完成后我的是这样的。
-&lt;img src=&quot;http://leonyue.github.io/upload_images/596199-c7f9952d11c0e973.png&quot; alt=&quot;image&quot; /&gt;
+&lt;img src=&quot;../../../upload/596199-c7f9952d11c0e973.png&quot; alt=&quot;image&quot; /&gt;
 下一步就是将静态库的目录引用进来，在主工程的Target/Build Settings /User Header SearchPaths中添加$(BUILT_PRODUCTS_DIR),并且选择递归引用 也就是（recursive）。
-&lt;img src=&quot;http://leonyue.github.io/upload_images/596199-a33542e1ed4e3762.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;../../../upload/596199-a33542e1ed4e3762.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;section-2&quot;&gt;结语：&lt;/h2&gt;
 &lt;hr /&gt;
