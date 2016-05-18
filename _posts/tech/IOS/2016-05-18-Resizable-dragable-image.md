@@ -10,7 +10,7 @@ description:
 ###	视图结构
 ---
 
-##	UIScrollView 嵌套 UIImageView
+UIScrollView 嵌套 UIImageView
 
 ![image](../../../upload/Snip20160518_3.png)
 
