@@ -1,7 +1,7 @@
 ---
 layout: post
 title: FFmpeg视频解码
-category: 流媒体
+category: 多媒体
 tags: FFmpeg
 keywords: FFmpeg
 description:

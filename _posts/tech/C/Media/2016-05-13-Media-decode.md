@@ -1,7 +1,7 @@
 ---
 layout: post
 title: FFmpeg深入分析之零-基础
-category: 流媒体
+category: 多媒体
 tags: IJKPlayer
 keywords: IJKPlayer
 description:

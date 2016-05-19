@@ -1,7 +1,7 @@
 ---
 layout: post
 title: FFMPEG结构体-AVFrame
-category: 流媒体
+category: 多媒体
 tags: FFMpeg,AVFrame
 keywords: FFMpeg,AVFrame
 description:
