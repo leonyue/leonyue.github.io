@@ -60,10 +60,31 @@ if (!(options & SDWebImageDelayPlaceholder))
 ```
 
 内联函数
+
 [static inline 和 extern inline](http://leonyue.github.io/2016/05/19/static-inline-extern-inline.html)
 
 ```swift
 FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
     return image.size.height * image.size.width * image.scale * image.scale;
+}
+```
+
+MD5 计算
+
+[参考](http://jingyan.baidu.com/article/09ea3ededca4b1c0aede39c4.html)
+
+```swift
+- (NSString *)cachedFileNameForKey:(NSString *)key {
+    const char *str = [key UTF8String];
+    if (str == NULL) {
+        str = "";
+    }
+    unsigned char r[CC_MD5_DIGEST_LENGTH];
+    CC_MD5(str, (CC_LONG)strlen(str), r);
+    NSString *filename = [NSString stringWithFormat:@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%@",
+                          r[0], r[1], r[2], r[3], r[4], r[5], r[6], r[7], r[8], r[9], r[10],
+                          r[11], r[12], r[13], r[14], r[15], [[key pathExtension] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@".%@", [key pathExtension]]];
+
+    return filename;
 }
 ```
