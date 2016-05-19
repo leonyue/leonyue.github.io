@@ -58,3 +58,12 @@ if (!(options & SDWebImageDelayPlaceholder))
         isFailedUrl = [self.failedURLs containsObject:url];
     }
 ```
+
+内联函数
+[static inline 和 extern inline](http://leonyue.github.io/2016/05/19/static-inline-extern-inline.html)
+
+```swift
+FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
+    return image.size.height * image.size.width * image.scale * image.scale;
+}
+```
