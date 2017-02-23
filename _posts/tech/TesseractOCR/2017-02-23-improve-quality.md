@@ -32,6 +32,16 @@ Tesseract 内部在进行实际的OCR操作前进行了各式各样的处理操�
 
 你可以再运行Tesseract使用[configuration variable](https://github.com/tesseract-ocr/tesseract/wiki/ControlParams)`tessedit_write_images` to `true`，如果结果文件`tessinput.tif`看上去有问题试试这些图片处理操作再传给Tesseract。
 
+##### 调整大小
+
+Tesseract 最佳工作图片至少300DPI。
+
+##### 二值化
+
+![](../../../upload/binarisation.png)
+
+这是把一张图片转成黑白图片。Tesseract在内部做了此处理，但是效果可能不是最佳，特别当图片背景是黑的不均匀的情况。
+
 ##### 未完待续
 
 [原文地址](https://github.com/tesseract-ocr/tesseract/wiki/ImproveQuality#rescaling)
