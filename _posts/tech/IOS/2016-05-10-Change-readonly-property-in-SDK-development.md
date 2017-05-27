@@ -43,4 +43,4 @@ SampleClassB提供了属性(SampleClass *)sample
 ```
 
 ### 从而实现了只读属性的内部写操作
-[测试项目地址]:https://github.com/leonyue/ProblemSolutions/tree/master/BuildSDK
+[测试项目地址]: https://github.com/leonyue/ProblemSolutions/tree/master/BuildSDK
