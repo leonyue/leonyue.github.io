@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Mac下的C++编译
-category: C++
+category: Cplusplus
 tags: 
 keywords: 
 description:
