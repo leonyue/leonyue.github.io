@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 提高识别质量
-category: TesseractOCR
+category: OCR
 tags: Tesseract,OCR,ImproveQuality
 description:
 ---
