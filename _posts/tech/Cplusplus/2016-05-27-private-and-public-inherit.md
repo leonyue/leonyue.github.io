@@ -1,7 +1,7 @@
 ---
 layout: post
 title: C++：private继承与public继承
-category: C++
+category: Cplusplus
 tags: 
 keywords: 
 description:
