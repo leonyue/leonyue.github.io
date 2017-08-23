@@ -9,7 +9,7 @@ description:
 
 模仿系统视频剪辑做的一个界面
 
-![image](../../../upload/Untitled.gif)
+![image](/assets/uploads/Untitled.gif)
 
 ###	总结
 ---
@@ -56,14 +56,14 @@ seekToTime有很大误差
     @class			AVVideoCompositionCoreAnimationTool
 
     @abstract		A tool for using Core Animation in a video composition.
-    
+
  @discussion
    Instances of AVVideoCompositionCoreAnimationTool are for use with offline rendering (AVAssetExportSession and AVAssetReader), not with AVPlayer.
    To synchronize real-time playback with other CoreAnimation layers, use AVSynchronizedLayer.
 
-   Any animations will be interpreted on the video's timeline, not real-time, so 
-		(a) set animation beginTimes to small positive value such as AVCoreAnimationBeginTimeAtZero rather than 0, 
-		    because CoreAnimation will replace a value of 0 with CACurrentMediaTime(); 
+   Any animations will be interpreted on the video's timeline, not real-time, so
+		(a) set animation beginTimes to small positive value such as AVCoreAnimationBeginTimeAtZero rather than 0,
+		    because CoreAnimation will replace a value of 0 with CACurrentMediaTime();
 		(b) set removedOnCompletion to NO on animations so they are not automatically removed;
 		(c) do not use layers associated with UIViews.
 */

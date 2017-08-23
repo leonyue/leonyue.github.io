@@ -12,7 +12,7 @@ description:
 
 UIScrollView 嵌套 UIImageView
 
-![image](../../../upload/Snip20160518_3.png)
+![image](/assets/uploads/Snip20160518_3.png)
 
 
 ###	添加双击手势
@@ -29,23 +29,23 @@ UIScrollView 嵌套 UIImageView
 }
 
 - (void)doubleTap:(UIGestureRecognizer *)sender {
-    
+
     CGPoint locationDep = [sender locationInView:sender.view];
     // CGSize(0~1,0~1)
     CGPoint zoomImgLocation = CGPointMake(locationDep.x / sender.view.bounds.size.width, locationDep.y / sender.view.bounds.size.height);
 
     if (self.zoomScroll.zoomScale < self.zoomScroll.maximumZoomScale) {
-        
+
         CGFloat desScale = self.zoomScroll.maximumZoomScale;
         CGSize unZoomedImgSize = sender.view.bounds.size;
-        
+
         CGSize zoomedSize;
         zoomedSize.width = unZoomedImgSize.width * desScale;
         zoomedSize.height = unZoomedImgSize.height * desScale;
-        
+
         CGFloat maxOffsetX = (desScale - 1) * zoomedSize.width;
         CGFloat maxOffsetY = (desScale - 1) * zoomedSize.height;
-        
+
         CGPoint offSet = CGPointMake(zoomedSize.width * zoomImgLocation.x, zoomedSize.height * zoomImgLocation.y);
         offSet.x = offSet.x - zoomedSize.width / desScale / 2;
         offSet.y = offSet.y - zoomedSize.height / desScale / 2;
@@ -53,7 +53,7 @@ UIScrollView 嵌套 UIImageView
         offSet.y = offSet.y > maxOffsetY ? maxOffsetY : offSet.y;
         offSet.x = offSet.x < 0.0 ? 0.0 : offSet.x;
         offSet.y = offSet.y < 0.0 ? 0.0 : offSet.y;
-        
+
         [UIView animateWithDuration:0.5 animations:^{
             self.zoomScroll.zoomScale = desScale;
             self.zoomScroll.contentOffset = offSet;
@@ -83,17 +83,17 @@ UIScrollView 嵌套 UIImageView
 ```swift
 - (void)layoutSubviews {
     [super layoutSubviews];
-    
+
     if (self.zoomScroll.zoomScale == 1) {
 
         CGSize imageS = self.previewImageView.image.size;
         CGSize cellSize = self.bounds.size;
-        
+
         CGFloat expectedImageWidth = imageS.width / imageS.height * cellSize.height;
         CGFloat imageViewWidth = cellSize.width;
-        
+
         BOOL fillWidth = imageViewWidth > expectedImageWidth;
-        
+
         if (fillWidth) {
             self.imgEnding.constant = self.imgLeading.constant = (imageViewWidth - expectedImageWidth) / 2;
         }
@@ -102,7 +102,7 @@ UIScrollView 嵌套 UIImageView
             CGFloat imageViewHeight = cellSize.height;
             self.imgTop.constant = self.imgBottom.constant = (imageViewHeight - expectedImageHeight) / 2;
         }
-        
+
         [self updateConstraintsIfNeeded];
     }
 
@@ -119,6 +119,3 @@ PinchGesture动作缩放对象
     return self.previewImageView;
 }
 ```
-
-
-

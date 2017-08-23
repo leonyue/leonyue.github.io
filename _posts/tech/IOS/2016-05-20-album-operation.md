@@ -44,4 +44,4 @@ description:
     } completionHandler:^(BOOL success, NSError *error) {
     }];
 ```
-![image](../../../upload/Snip20160520_1.png)
+![image](/assets/uploads/Snip20160520_1.png)

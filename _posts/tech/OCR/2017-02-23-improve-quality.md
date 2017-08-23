@@ -38,25 +38,25 @@ Tesseract 最佳工作图片至少300DPI。
 
 ##### 二值化
 
-![](../../../upload/binarisation.png)
+![image](/assets/uploads/binarisation.png)
 
 这是把一张图片转成黑白图片。Tesseract在内部做了此处理，但是效果可能不是最佳，特别当图片背景是黑的不均匀的情况。
 
 ##### 降噪
 
-![](../../../upload/noise.png)
+![image](/assets/uploads/noise.png)
 
 噪点是图片中敏感度或者颜色的变种，它们会使图片上的文字更加难以辨识。特定类型的噪点不能在Tesseract二值化步骤中被移除，从而降低了正确率。
 
 ##### 旋转/矫正
 
-![](../../../upload/skew-linedetection.png)
+![image](/assets/uploads/skew-linedetection.png)
 
 扭曲的图片是当页面在不值的情况下扫描的。Tesseract的线条分割可以减少明显的图片扭曲，图片扭曲会严重影响OCR质量。旋转页面以保证文字行是水平的。
 
 ##### 移除边框
 
-![](../../../upload/borders.png)
+![image](/assets/uploads/borders.png)
 
 扫描的页面通常有黑色的边框环绕，这会被错误的当做额外的字符，特别是当形状和变化多样化时。
 
